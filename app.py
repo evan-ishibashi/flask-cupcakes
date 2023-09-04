@@ -1,7 +1,7 @@
 
 import os
 
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 
 from models import db, connect_db, Cupcake, DEFAULT_CUPCAKE_URL
 
@@ -50,15 +50,16 @@ def create_cupcake():
 
 @app.patch('/api/cupcakes/<int:cupcake_id>')
 def update_cupcake(cupcake_id):
+    """Updates cupcake / returns JSON of updated cupcake"""
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
 
     data = request.json
 
-    cupcake.flavor = data["flavor"] or cupcake.flavor
-    cupcake.size = data["size"] or cupcake.size
-    cupcake.rating = data["rating"] or cupcake.rating
-    cupcake.image_url = data["image_url"] or cupcake.image_url
+    cupcake.flavor = data.get("flavor", cupcake.flavor)
+    cupcake.size = data.get("size", cupcake.size)
+    cupcake.rating = data.get("rating", cupcake.rating)
+    cupcake.image_url = data.get("image_url", cupcake.image_url)
 
     db.session.commit()
 
@@ -66,6 +67,7 @@ def update_cupcake(cupcake_id):
 
 @app.delete('/api/cupcakes/<int:cupcake_id>')
 def delete_cupcake(cupcake_id):
+    """deletes cupcake / returns JSON of deleted cupcake ID"""
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
 
@@ -74,5 +76,12 @@ def delete_cupcake(cupcake_id):
 
     return jsonify(deleted = cupcake_id)
 
+#TODO: add input/output examples (see lecture notes)
 
+#FRONT END ROUTES
+
+@app.get('/')
+def home_page():
+
+    return render_template('index.html')
 
