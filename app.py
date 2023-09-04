@@ -82,6 +82,6 @@ def delete_cupcake(cupcake_id):
 
 @app.get('/')
 def home_page():
-
+    """Renders home page"""
     return render_template('index.html')
 
