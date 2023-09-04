@@ -37,7 +37,7 @@ class Cupcake(db.Model):
     )
 
     image_url = db.Column(
-        db.String,
+        db.Text,
         nullable=False,
         default=DEFAULT_CUPCAKE_URL
     )

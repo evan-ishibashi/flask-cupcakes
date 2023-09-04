@@ -1,7 +1,7 @@
 
 import os
 
-from flask import Flask, jsonify, request, redirect, render_template
+from flask import Flask, jsonify, request
 
 from models import db, connect_db, Cupcake
 
@@ -14,7 +14,7 @@ app.config['SQLALCHEMY_ECHO'] = True
 connect_db(app)
 
 @app.get('/api/cupcakes')
-def get_all_cupcake_data():
+def list_all_cupcake_data():
     """Returns JSON data for all cupcakes"""
     cupcakes = Cupcake.query.all()
     serialized = [c.serialize() for c in cupcakes]
@@ -22,7 +22,7 @@ def get_all_cupcake_data():
     return jsonify(cupcakes=serialized)
 
 @app.get('/api/cupcakes/<int:cupcake_id>')
-def get_single_cupcake(cupcake_id):
+def list_single_cupcake(cupcake_id):
     """Returns JSON data of single cupcake"""
     cupcake = Cupcake.query.get_or_404(cupcake_id)
     serialized = cupcake.serialize()
