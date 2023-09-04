@@ -43,7 +43,8 @@ class Cupcake(db.Model):
     )
 
     def serialize(self):
-        """Serialize to dictionary"""
+        """Turns JSON data into a dict"""
+
         return {
             "id":self.id,
             "flavor":self.flavor,
