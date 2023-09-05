@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 
 const $cupcakeList = $('#cupcake-list');
 const $cupcakeForm = $('#cupcake-form');
@@ -54,7 +54,7 @@ async function displayCupcakeList(){
  */
 async function addCupcake(evt){
   evt.preventDefault()
-
+  //FIXME: needs "$" on vars since they are jQuery vars
   const flavor = $('#flavor').val();
   const rating = $('#rating').val();
   const size = $('#size').val();

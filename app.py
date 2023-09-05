@@ -96,3 +96,5 @@ def home_page():
 
     return render_template('index.html')
 
+#FIXME: should be added to the top of the page
+
