@@ -15,7 +15,9 @@ connect_db(app)
 
 @app.get('/api/cupcakes')
 def list_all_cupcake_data():
-    """Returns JSON data for all cupcakes"""
+    """Returns JSON data for all cupcakes
+        {"cupcakes": [{id, flavor, size, ...}]}
+    """
 
     cupcakes = Cupcake.query.all()
     serialized = [c.serialize() for c in cupcakes]
@@ -24,7 +26,9 @@ def list_all_cupcake_data():
 
 @app.get('/api/cupcakes/<int:cupcake_id>')
 def list_single_cupcake(cupcake_id):
-    """Returns JSON data of single cupcake"""
+    """Returns JSON data of single cupcake
+        {"cupcake": {id, flavor, size, ...}}
+    """
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
 
@@ -32,7 +36,9 @@ def list_single_cupcake(cupcake_id):
 
 @app.post("/api/cupcakes")
 def create_cupcake():
-    """Creates a cupcake and returns JSON data of that cupcake"""
+    """Creates a cupcake and returns JSON data of that cupcake
+        returns JSON {"flavor": request.json["flavor"], ...}
+    """
 
     data = request.json
 
@@ -50,7 +56,9 @@ def create_cupcake():
 
 @app.patch('/api/cupcakes/<int:cupcake_id>')
 def update_cupcake(cupcake_id):
-    """Updates cupcake / returns JSON of updated cupcake"""
+    """Updates cupcake / returns JSON of updated cupcake
+        returns JSON {"flavor": cupcake.flavor, ...}
+    """
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
 
@@ -67,7 +75,9 @@ def update_cupcake(cupcake_id):
 
 @app.delete('/api/cupcakes/<int:cupcake_id>')
 def delete_cupcake(cupcake_id):
-    """deletes cupcake / returns JSON of deleted cupcake ID"""
+    """deletes cupcake / returns JSON of deleted cupcake ID
+        returns JSON {deleted: cupcake_id}
+    """
 
     cupcake = Cupcake.query.get_or_404(cupcake_id)
 
@@ -83,5 +93,6 @@ def delete_cupcake(cupcake_id):
 @app.get('/')
 def home_page():
     """Renders home page"""
+
     return render_template('index.html')
 

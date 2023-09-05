@@ -4,6 +4,7 @@ const $cupcakeList = $('#cupcake-list');
 const $cupcakeForm = $('#cupcake-form');
 
 
+/** Grabs the instances of cupcakes from the database */
 async function grabCupcakes() {
 
   const resp = await fetch('/api/cupcakes')
@@ -12,6 +13,7 @@ async function grabCupcakes() {
   return data.cupcakes;
   // returns [(cupcake item1), (cupcake item2)]
 }
+
 
 /** Generates/Appends HTML of Each Cupcake */
 function displayCupcakes(cupcakeData) {
@@ -39,17 +41,17 @@ function displayCupcakes(cupcakeData) {
   }
 }
 
+/** Invokes cupcakeData to get instances to display them on the HTML */
 async function displayCupcakeList(){
 
-
   const cupcakeData = await grabCupcakes();
-
   displayCupcakes(cupcakeData);
-
 }
 
-displayCupcakeList();
-/**Handles Cupcake Submission Form */
+
+/**Handles Cupcake Submission Form.
+ * Invokes displayCupcakeList to append new cupcake to list.
+ */
 async function addCupcake(evt){
   evt.preventDefault()
 
@@ -58,7 +60,22 @@ async function addCupcake(evt){
   const size = $('#size').val();
   const image = $('#image').val();
 
-  const resp = await fetch('/api/cupcakes')
+  const resp = await fetch('/api/cupcakes', {
+    method: "POST",
+    body: JSON.stringify({
+      "flavor": flavor,
+      "rating": rating,
+      "size": size,
+      "image_url": image
+    }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
 
-
+  displayCupcakeList();
 }
+
+$cupcakeForm.on("submit", addCupcake);
+
+displayCupcakeList();
